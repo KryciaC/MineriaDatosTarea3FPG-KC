@@ -1,0 +1,57 @@
+#Tarea 2 FP Growth
+Minería de Datos Krycia Castillo
+
+```{r}
+install.packages("C:/Users/KRYCIA C/Downloads/fim4r_1.8.tar.gz", repos = NULL, type = "source")
+library(fim4r)
+
+
+install.packages("arules")
+library(arules)
+
+options(scipen = 999)
+```
+
+
+```{r}
+data <- read.csv('C:/Users/KRYCIA C/Documents/CienciadeComputacion/4to_Trimestre/Mineríadedatos/Tareas/db_csv_/MIGRACION_BDP.csv', sep= ',')
+
+data$PEI5[data$PEI5 == 9999] <- NA
+
+data2 <- data[ ,c(1,2,5,9,10,11)]
+
+#Rural
+dataR <- subset (data2, AREA == 2)
+
+dataR2 <- dataR [ ,c(1,2,4,5,6)]
+
+
+```
+
+```{r}
+#set completo de datos
+reglas <- fim4r(data, method = "fpgrowth", target="rules", supp = .2, conf = .5)
+
+reglasframe <- as(reglas, "data.frame")
+```
+
+
+```{r}
+#Luego de revisar los datos se consideró eliminar del análisis el código de municipio, la zona, num_vivienda, num_hogar y id_migración
+
+reglas2 <- fim4r(data2, method = "fpgrowth", target="rules", supp = .2, conf = .5)
+
+reglasframe2 <- as(reglas2, "data.frame")
+
+```
+
+
+```{r}
+#Área Rural
+reglasR <- fim4r(dataR2, method = "fpgrowth", target="rules", supp = .2, conf = .5)
+
+reglasframeR <- as(reglasR, "data.frame")
+
+```
+
+
